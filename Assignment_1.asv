@@ -59,20 +59,17 @@ for i = 1:length(target_idx)
         epochs(:,:,i) = data_car(:,idx);
     end
 end
-%We are epoching data here on the basis of defined epoch length in the
-%window preintialized. 
-
+%We are allocating 
 %% -------------------------
 % Step 5: Baseline correction
 % -------------------------
 baseline_idx = 1:round(0.2*EEG.srate);
+% Compute the global variance mean across trials for artifact rejection,
+% you can use it either at trial level using indexing or global level using
+% global var mean
 global_var_mean = mean(mean(trial_var));
 baseline = mean(epochs(:,baseline_idx,global_var_mean),2);
 epochs_bc = epochs - baseline;
-
-%We are doing baseline correction here.Compute the global variance mean across trials for artifact rejection,
-% you can use it either at trial level using indexing or global level using
-% global var mean. We initialise baseline corrected epochs as epochs_bc. 
 
 %% -------------------------
 % Step 6: Improved Artifact Rejection
